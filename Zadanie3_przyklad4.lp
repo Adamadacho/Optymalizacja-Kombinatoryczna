@@ -165,3 +165,57 @@ max_value_per_category(MaxSzermierka, MaxPlywanie, MaxJezdziectwo) :-
 
 
 
+
+_____________________________________________________________________________
+% Definiujemy kandydatów i ich wyniki w poszczególnych dyscyplinach  
+candidate(miroslaw). candidate(jacek). candidate(piotr).  
+candidate(szymon). candidate(pawel). candidate(tomasz).  
+candidate(mateusz). candidate(lukasz).  
+  
+score(miroslaw, fencing, 75). score(miroslaw, swimming, 25).  
+score(miroslaw, riding, 202). score(miroslaw, running, 130).  
+score(miroslaw, shooting, 165).  
+  
+score(jacek, fencing, 87). score(jacek, swimming, 24).  
+score(jacek, riding, 198). score(jacek, running, 127).  
+score(jacek, shooting, 173).  
+  
+score(piotr, fencing, 68). score(piotr, swimming, 19).  
+score(piotr, riding, 195). score(piotr, running, 121).  
+score(piotr, shooting, 164).  
+  
+score(szymon, fencing, 91). score(szymon, swimming, 20).  
+score(szymon, riding, 207). score(szymon, running, 122).  
+score(szymon, shooting, 182).  
+  
+score(pawel, fencing, 80). score(pawel, swimming, 28).  
+score(pawel, riding, 215). score(pawel, running, 125).  
+score(pawel, shooting, 172).  
+  
+score(tomasz, fencing, 78). score(tomasz, swimming, 22).  
+score(tomasz, riding, 197). score(tomasz, running, 125).  
+score(tomasz, shooting, 180).  
+  
+score(mateusz, fencing, 75). score(mateusz, swimming, 25).  
+score(mateusz, riding, 205). score(mateusz, running, 127).  
+score(mateusz, shooting, 178).  
+  
+score(lukasz, fencing, 81). score(lukasz, swimming, 23).  
+score(lukasz, riding, 211). score(lukasz, running, 131).  
+score(lukasz, shooting, 165).  
+  
+% Wybieramy zawodników do dyscyplin  
+1 { team(X, D) : candidate(X), score(X, D, _) } 1 :- discipline(D).  
+  
+% Upewniamy się, że każdy zawodnik jest wybrany tylko do jednej dyscypliny  
+:- team(X, D1), team(X, D2), discipline(D1), discipline(D2), D1 != D2.
+  
+% Definiujemy dyscypliny  
+discipline(fencing). discipline(swimming). discipline(riding).  
+discipline(running). discipline(shooting).  
+  
+% Maksymalizujemy sumę punktów  
+#maximize { S, X, D : team(X,D), score(X, D, S) }.  
+  
+% Wyświetlamy wyniki  
+#show team/2.
